@@ -4,7 +4,15 @@ import App from './App.tsx';
 import './index.css';
 
 if (typeof window !== 'undefined') {
-  // Gracefully suppress benign Vite HMR and WebSocket connection failures from logs and platforms diagnostics
+  // Gracefully suppress benign Vite HMR and WebSocket connection failures
+  const originalConsoleError = console.error;
+  console.error = (...args: any[]) => {
+    if (typeof args[0] === 'string' && (args[0].includes('[vite] failed to connect') || args[0].includes('WebSocket'))) {
+      return;
+    }
+    originalConsoleError.apply(console, args);
+  };
+
   window.addEventListener('unhandledrejection', (event) => {
     const reason = event.reason;
     if (reason) {
