@@ -76,12 +76,18 @@ const db = getFirestore(app);
 
 // --- PREBUILT VOICES ---
 const VOICES = [
+  { id: "kabir", name: "Kabir", gender: "Male", description: "Deep, bass-heavy, and effortlessly cool" },
   { id: "aditya", name: "Aditya", gender: "Male", description: "Breezy and bright, perfect for stories" },
   { id: "ritu", name: "Ritu", gender: "Female", description: "Informative, formal, ideal for narration" },
+  { id: "dev", name: "Dev", gender: "Male", description: "Smooth, confident, and highly professional" },
   { id: "kavya", name: "Kavya", gender: "Female", description: "Excitable, highly dramatic, engaging tone" },
+  { id: "shreya", name: "Shreya", gender: "Female", description: "Soft, melodious, and very natural" },
   { id: "rahul", name: "Rahul", gender: "Male", description: "Firm, calm, authoritative tone for guides" },
-  { id: "neha", name: "Neha", gender: "Female", description: "Upbeat, casual, extremely energetic" },
+  { id: "pooja", name: "Pooja", gender: "Female", description: "Clear, professional, excellent for presentations" },
   { id: "rohan", name: "Rohan", gender: "Male", description: "Deep and resonant, great for dramatic reading" },
+  { id: "neha", name: "Neha", gender: "Female", description: "Upbeat, casual, extremely energetic" },
+  { id: "amit", name: "Amit", gender: "Male", description: "Warm, conversational, and friendly" },
+  { id: "tanya", name: "Tanya", gender: "Female", description: "Expressive, youthful, and engaging tone" },
 ];
 
 const LANGUAGES = [
@@ -627,6 +633,13 @@ export default function App() {
   // --- AUDIO DOWNLOAD CONTROLLER ---
   const handleDownload = () => {
     if (!currentAudio) return;
+
+    if (user?.uid === "mock-uid-dev") {
+      showToast("error", "Please sign up to download your generated audio.");
+      setAuthTab("register");
+      setUser(null);
+      return;
+    }
 
     setIsDownloading(true);
     setDownloadProgress(10);
